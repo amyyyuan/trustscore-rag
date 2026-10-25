@@ -1,0 +1,3 @@
+experiment,condition,n_pos,n_neg,n_sets,auroc,auroc_lo,auroc_hi,auroc_fold_mean,tpr@0.01,tpr@0.01_lo,tpr@0.01_hi,fpr@0.01_realised,fpr@0.01_collateral,tpr@0.05,tpr@0.05_lo,tpr@0.05_hi,fpr@0.05_realised,fpr@0.05_collateral
+loro_fact_noprefix,fact_noprefix_m1,96,4000,100,0.824,0.779,0.864,0.824,0.083,0.031,0.146,0.011,0.010,0.354,0.260,0.448,0.051,0.039
+loro_fact_noprefix,fact_noprefix_m5,447,4000,100,0.786,0.756,0.815,0.786,0.009,0.000,0.020,0.011,0.007,0.163,0.114,0.220,0.051,0.043

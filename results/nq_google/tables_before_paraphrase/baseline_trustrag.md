@@ -1,0 +1,11 @@
+| condition               |   trustrag_tpr |   trustrag_fpr_clean |   trustrag_fpr_collateral |
+|:------------------------|---------------:|---------------------:|--------------------------:|
+| fact_noprefix_m1        |          0.917 |                0.755 |                     0.757 |
+| fact_noprefix_m5        |          0.998 |                0.755 |                     0.790 |
+| fact_prefix_m1          |          0.930 |                0.755 |                     0.758 |
+| fact_prefix_m5          |          1.000 |                0.755 |                     0.780 |
+| inj_carrier_m1          |          0.694 |                0.755 |                     0.745 |
+| inj_carrier_m5          |          0.892 |                0.755 |                     0.618 |
+| inj_standalone_m1       |          0.864 |                0.755 |                     0.763 |
+| inj_standalone_m5       |          0.995 |                0.755 |                     0.802 |
+| inj_standalone_rep10_m1 |          0.000 |                0.755 |                     0.738 |

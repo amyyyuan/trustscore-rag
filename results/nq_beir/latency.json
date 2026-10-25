@@ -1,0 +1,16 @@
+{
+ "device": "mps",
+ "perplexity_s_per_passage": 0.04579299826384274,
+ "injection_classifier_s_per_passage": 0.23861690130213012,
+ "embedding_s_per_passage": 0.05611014981844016,
+ "nli_s_per_pair": 0.023921690688490767,
+ "lexical_s_per_set": 0.0006377192855592916,
+ "geometry_s_per_set": 0.0002384817166552643,
+ "counts": {
+  "ppl": 705,
+  "inj": 705,
+  "emb": 705,
+  "nli_pairs": 11547,
+  "sets": 1800
+ }
+}

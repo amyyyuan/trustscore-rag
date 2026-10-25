@@ -1,0 +1,4 @@
+experiment,condition,n_pos,n_neg,n_sets,auroc,auroc_lo,auroc_hi,auroc_fold_mean,tpr@0.01,tpr@0.01_lo,tpr@0.01_hi,fpr@0.01_realised,fpr@0.01_collateral,tpr@0.05,tpr@0.05_lo,tpr@0.05_hi,fpr@0.05_realised,fpr@0.05_collateral
+loro_inj_standalone,inj_standalone_m1,81,4000,100,0.985,0.972,0.994,0.985,0.790,0.691,0.877,0.011,0.007,0.926,0.864,0.975,0.048,0.030
+loro_inj_standalone,inj_standalone_m5,385,4000,100,0.991,0.989,0.994,0.992,0.868,0.836,0.897,0.011,0.002,0.935,0.912,0.955,0.048,0.029
+loro_inj_standalone,inj_standalone_rep10_m1,67,4000,100,1.000,1.000,1.000,1.000,1.000,1.000,1.000,0.011,0.004,1.000,1.000,1.000,0.048,0.036

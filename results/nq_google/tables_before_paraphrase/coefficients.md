@@ -1,0 +1,15 @@
+| signal          |   coef_mean |   coef_std |
+|:----------------|------------:|-----------:|
+| cue_count       |       7.184 |      0.101 |
+| nn_dist         |      -1.330 |      0.103 |
+| sim_z           |       1.305 |      0.067 |
+| mean_dist       |       1.105 |      0.050 |
+| q_lcs           |       1.031 |      0.066 |
+| log_ppl         |      -0.816 |      0.100 |
+| log_ppl_win     |       0.792 |      0.077 |
+| clus_tight      |       0.509 |      0.108 |
+| inj_prob        |       0.441 |      0.100 |
+| nli_contra_max  |       0.273 |      0.028 |
+| nli_contra_mean |      -0.267 |      0.041 |
+| nli_entail_mean |       0.223 |      0.033 |
+| q_overlap       |      -0.048 |      0.062 |

@@ -1,0 +1,54 @@
+{
+ "n_sets": 1300,
+ "conditions": [
+  "fact_prefix_m1",
+  "fact_noprefix_m1",
+  "inj_carrier_m1",
+  "inj_standalone_m1",
+  "fact_prefix_m5",
+  "fact_noprefix_m5",
+  "inj_carrier_m5",
+  "inj_standalone_m5",
+  "inj_standalone_rep10_m1"
+ ],
+ "retrieval": {
+  "fact_prefix_m1": {
+   "mean_poison_in_topk": 1.0,
+   "frac_sets_with_poison": 1.0
+  },
+  "fact_noprefix_m1": {
+   "mean_poison_in_topk": 0.96,
+   "frac_sets_with_poison": 0.96
+  },
+  "inj_carrier_m1": {
+   "mean_poison_in_topk": 0.98,
+   "frac_sets_with_poison": 0.98
+  },
+  "inj_standalone_m1": {
+   "mean_poison_in_topk": 0.81,
+   "frac_sets_with_poison": 0.81
+  },
+  "fact_prefix_m5": {
+   "mean_poison_in_topk": 4.99,
+   "frac_sets_with_poison": 1.0
+  },
+  "fact_noprefix_m5": {
+   "mean_poison_in_topk": 4.47,
+   "frac_sets_with_poison": 1.0
+  },
+  "inj_carrier_m5": {
+   "mean_poison_in_topk": 4.82,
+   "frac_sets_with_poison": 1.0
+  },
+  "inj_standalone_m5": {
+   "mean_poison_in_topk": 3.85,
+   "frac_sets_with_poison": 1.0
+  },
+  "inj_standalone_rep10_m1": {
+   "mean_poison_in_topk": 0.67,
+   "frac_sets_with_poison": 0.67
+  }
+ },
+ "score_agreement": null,
+ "n_random_sets": 0
+}

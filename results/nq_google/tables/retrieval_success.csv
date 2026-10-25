@@ -1,0 +1,10 @@
+condition,sets,poison_in_topk,m,retrieved_frac
+fact_noprefix_m1,100,96,1,0.960
+fact_noprefix_m5,100,447,5,0.894
+fact_prefix_m1,100,100,1,1.000
+fact_prefix_m5,100,499,5,0.998
+inj_carrier_m1,100,98,1,0.980
+inj_carrier_m5,100,482,5,0.964
+inj_standalone_m1,100,81,1,0.810
+inj_standalone_m5,100,385,5,0.770
+inj_standalone_rep10_m1,100,67,1,0.670

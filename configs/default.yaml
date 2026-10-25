@@ -1,0 +1,97 @@
+# Default configuration for the trust-score experiments.
+# Every number that shapes the experiment lives here so the report can cite one file.
+
+seed: 0
+
+paths:
+  third_party: third_party        # upstream clones (PoisonedRAG, RobustRAG), created by setup
+  data: data                      # prepared datasets (gitignored, rebuilt by scripts/00_prepare_data.py)
+  results: results                # outputs (tables and figures are committed, caches are not)
+
+datasets:
+  nq_beir:                        # PoisonedRAG setting: BEIR NQ corpus, Contriever retrieval
+    enabled: true
+    n_target: 100                 # the 100 PoisonedRAG target questions (each has 5 poison texts)
+    n_extra_clean: 300            # extra NQ test queries, never attacked, used for thresholds and FPR
+    candidate_pool: 30            # clean candidates per query (top of the stored top-100 retrieval run)
+    n_random_passages: 2000       # random corpus passages for the "irrelevant but benign" check
+    include_title: false          # PoisonedRAG hands the generator the passage text without its title
+  nq_google:                      # RobustRAG setting: NQ questions with Google-search snippets
+    enabled: true
+    n_target: 100
+    n_extra_clean: 300
+    include_title: true           # RobustRAG prepends the page title to each snippet given to the generator
+
+retrieval:
+  model: facebook/contriever
+  score: dot                      # dot product, as in PoisonedRAG
+  k: 10                           # passages handed to the generator
+  max_length: 512                 # tokens embedded per text (title + text). PoisonedRAG's evaluate_beir.py defines --max_length 128 but never passes it on; its DenseEncoderModel default of 512 produced the released scores
+
+attacks:
+  m_values: [1, 5]                # number of poisoned passages injected per attacked question
+  placement: retrieved            # "retrieved": poison competes on retriever score; "forced": poison replaces the lowest-ranked clean passages
+  injection:
+    repeat: 1                     # RobustRAG repeats its injection 10 times inside the passage; 1 is the natural-looking default
+    repeat_variant: 10            # a second, stronger variant kept for the end-task comparison
+    carrier_position: end         # where the instruction is placed inside the carrier passage: start | end
+  paraphrase:
+    enabled: true                 # needs an LLM backend; skipped with a warning if none is configured
+    model: null                   # null = same as llm.model
+
+signals:
+  perplexity_model: openai-community/gpt2   # canonical Hub name of GPT-2 (124M); the old alias "gpt2" breaks newer downloads
+  perplexity_window: 32           # tokens, for the windowed variant (Jain et al.)
+  perplexity_stride: 16
+  nli_model: cross-encoder/nli-MiniLM2-L6-H768   # 6-layer MiniLM cross-encoder trained on SNLI and MultiNLI; DeBERTa-v3-base took 0.4 s per pair on the M1 (8 h per setting)
+  nli_max_length: 256             # tokens per (premise, hypothesis) pair
+  nli_max_pairs_per_passage: 9    # k-1 when k=10; set lower to save time
+  injection_model: protectai/deberta-v3-base-prompt-injection-v2
+  batch_size: 32
+  device: auto                    # auto | cpu | mps | cuda
+
+baselines:
+  trustrag:
+    embedding_model: BAAI/bge-base-en-v1.5   # TrustRAG uses a separate encoder (BGE/BERT/SimCSE)
+    pooling: cls
+    cos_threshold: 0.88                      # the released code uses 0.88 (defend_module.py); the paper's Appendix B.2 says 0.85
+    rouge_threshold: 0.25                    # ROUGE-L threshold of the released code and the paper
+
+evaluation:
+  fpr_targets: [0.01, 0.05]
+  n_folds: 5                      # grouped by question id
+  n_bootstrap: 1000
+  fusion_C: 1.0
+  features_all: [log_ppl, log_ppl_win, sim_z, q_overlap, q_lcs, nn_dist, mean_dist, clus_tight, nli_contra_max, nli_contra_mean, nli_entail_mean, inj_prob, cue_count]
+  features_no_overlap: [log_ppl, log_ppl_win, sim_z, nn_dist, mean_dist, clus_tight, nli_contra_max, nli_contra_mean, nli_entail_mean, inj_prob, cue_count]   # without the two lexical query-copy features
+  features_no_queryshape: [log_ppl, log_ppl_win, nn_dist, mean_dist, clus_tight, nli_contra_max, nli_contra_mean, nli_entail_mean, inj_prob, cue_count]      # also without the query-similarity z-score
+  balance_conditions: true        # positives of every attack condition get equal total weight in training (m=5 conditions have five times the passages)
+  test_only_pattern: _para_       # conditions whose name contains this are never used to fit any scorer (the paraphrased adaptive variants); they are scored out of fold like every other condition
+  length_baseline: n_tokens       # scored alone in the single-signal audit as a length-only reference, never fused
+
+llm:
+  backend: openai_compatible      # openai_compatible | fake (for smoke tests)
+  # OpenRouter serving Meta's Llama 3.1 8B Instruct (Groq's paid tier was closed to new upgrades on 22 Oct 2026;
+  # Groq settings: base_url https://api.groq.com/openai/v1, api_key_env GROQ_API_KEY, model llama-3.1-8b-instant)
+  base_url: https://openrouter.ai/api/v1
+  api_key_env: OPENROUTER_API_KEY
+  model: meta-llama/llama-3.1-8b-instruct
+  extra_body:                     # OpenRouter provider routing: full-precision hosts only, no fallback to others
+    provider:
+      quantizations: [bf16, fp16, fp32]
+      allow_fallbacks: false
+  temperature: 0.0
+  max_tokens: 64
+  requests_per_minute: 200
+  tokens_per_minute: 200000
+  max_retries: 8
+  cache_dir: results/llm_cache
+  settings: [nq_beir]             # LLM steps run on these settings only (add nq_google if budget allows)
+  endtask_conditions: [clean, fact_prefix_m1, fact_prefix_m5, fact_noprefix_m5, inj_carrier_m1, inj_standalone_m1, inj_standalone_rep10_m1, fact_para_m5, inj_para_m1]
+  defenses: [none, filter_fused, filter_fused_no_overlap, filter_best_single, robustrag_keyword, known_answer]
+  robustrag:
+    alpha: 0.3
+    beta: 3
+  known_answer:
+    key_length: 7
+    conditions: [clean, fact_prefix_m5, fact_noprefix_m5, inj_carrier_m1, inj_standalone_m1, fact_para_m5, inj_para_m1]

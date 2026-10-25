@@ -1,0 +1,21 @@
+# Core
+torch>=2.2
+transformers>=4.44
+tokenizers>=0.19
+sentencepiece>=0.2.0
+protobuf>=4.21
+huggingface_hub>=0.23
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+scikit-learn>=1.4
+matplotlib>=3.8
+pyyaml>=6.0
+tqdm>=4.66
+requests>=2.31
+tabulate>=0.9
+# LLM access (any OpenAI-compatible endpoint: Groq, OpenAI, Ollama)
+openai>=1.40
+# Optional, installed by setup_mac.sh with a fallback if they fail:
+#   spacy + en_core_web_sm   (RobustRAG keyword extraction; a simple extractor is used otherwise)
+#   datasets                 (Hugging Face mirror of the BEIR corpus, used only if the UKP host is down)

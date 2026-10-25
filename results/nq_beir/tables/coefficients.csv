@@ -1,0 +1,14 @@
+signal,coef_mean,coef_std
+cue_count,3.419,1.065
+log_ppl,2.705,0.324
+log_ppl_win,-2.200,0.257
+q_overlap,1.648,0.100
+sim_z,1.393,0.176
+q_lcs,1.106,0.130
+inj_prob,0.847,0.284
+nli_contra_max,0.565,0.047
+clus_tight,0.414,0.041
+nli_entail_mean,0.391,0.152
+mean_dist,0.389,0.169
+nn_dist,-0.365,0.073
+nli_contra_mean,-0.360,0.062

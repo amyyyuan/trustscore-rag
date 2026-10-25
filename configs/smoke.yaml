@@ -1,0 +1,47 @@
+# Offline smoke test: tiny stand-in models, fabricated corpus, fake LLM. Checks that every script
+# runs end to end. Numbers produced with this config are meaningless.
+base: default.yaml
+
+paths:
+  third_party: third_party
+  data: data_smoke
+  results: results_smoke
+
+datasets:
+  nq_beir:
+    n_target: 12
+    n_extra_clean: 24
+    candidate_pool: 15
+    n_random_passages: 60
+  nq_google:
+    n_target: 12
+    n_extra_clean: 24
+
+retrieval:
+  model: data_smoke/standin/encoder
+  k: 6
+
+attacks:
+  m_values: [1, 3]
+
+signals:
+  perplexity_model: data_smoke/standin/lm
+  nli_model: data_smoke/standin/nli
+  nli_max_pairs_per_passage: 5
+  injection_model: data_smoke/standin/inj
+  device: cpu
+
+baselines:
+  trustrag:
+    embedding_model: data_smoke/standin/encoder
+    pooling: cls
+    cos_threshold: 0.5
+    rouge_threshold: 0.05
+
+evaluation:
+  n_folds: 3
+  n_bootstrap: 30
+
+llm:
+  backend: fake
+  model: fake-model

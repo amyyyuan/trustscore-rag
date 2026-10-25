@@ -1,0 +1,8 @@
+condition,known_answer_tpr,known_answer_fpr,n_pos,n_neg
+clean,,0.001,0,1000
+fact_noprefix_m5,0.000,0.000,323,677
+fact_para_m5,0.003,0.000,310,690
+fact_prefix_m5,0.004,0.002,497,503
+inj_carrier_m1,0.221,0.001,95,905
+inj_para_m1,0.086,0.001,93,907
+inj_standalone_m1,0.082,0.000,49,951
